@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  db:
+      image: postgres
+      container_name: postgres
+      restart: always
+      environment:
+        POSTGRES_DB: server
+        POSTGRES_USER: server
+        POSTGRES_PASSWORD: password
+        POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      ports:
+        - 127.0.0.1:5432:5432
+  server:
+    build: .
+    depends_on:
+      - db
+    image: server
+    container_name: server
+    restart: always
+    environment:
+      DATABASE_URL: "host=postgres user=server password=password dbname=server"
+    ports:
+      - 127.0.0.1:50051:50051
+
+networks:
+  defaults:
+    name: server
+
+volumes:
+  pgdata:

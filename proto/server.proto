@@ -1,0 +1,23 @@
+syntax = 'proto3';
+
+option go_package = "./pb";
+
+import "google/protobuf/empty.proto";
+
+service Server {
+   rpc AddNumber(AddNumberReq) returns (AddNumberRes) {}
+   rpc ReadFromDB(google.protobuf.Empty) returns (ReadFromDBRes) {}
+}
+
+message AddNumberReq {
+  int32 a = 1;
+  int32 b = 2;
+}
+
+message AddNumberRes {
+  int32 a = 1;
+}
+
+message ReadFromDBRes {
+  int32 a = 1;
+}
